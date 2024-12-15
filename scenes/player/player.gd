@@ -12,7 +12,6 @@ var current_direction = Vector2.ZERO
 
 func _physics_process(delta):
 	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
-	walk_sfx.play()
 	player_movement(input)
 	move_and_slide()
 	play_direction_anim(input)
@@ -21,7 +20,9 @@ func player_movement(input: Vector2):
 	if input: 
 		velocity = velocity.lerp(input * SPEED, ACCELERATION)
 		current_direction = input
+		walk_sfx.play()
 	else: 
+		walk_sfx.stop()
 		velocity = velocity.lerp(Vector2.ZERO, FRICTION)
 
 func play_direction_anim(input: Vector2):

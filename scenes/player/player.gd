@@ -1,20 +1,18 @@
 extends CharacterBody2D
 
 const SPEED = 300
-const ACCELERATION = 1500
-const FRICTION = 800
+const ACCELERATION = 0.75
+const FRICTION = 0.5
 
 var current_direction = Vector2.ZERO
-var current_animation = ""
 
 @onready var walk_sfx: AudioStreamPlayer = $AudioStreamPlayer
 
-
 func player_movement(input, delta):
 	if input: 
-		velocity = velocity.move_toward(input * SPEED , delta * ACCELERATION)
+		velocity = velocity.lerp(input * SPEED, ACCELERATION)
 	else: 
-		velocity = velocity.move_toward(Vector2(0,0), delta * FRICTION)
+		velocity = velocity.lerp(Vector2.ZERO, FRICTION)
 
 func _physics_process(delta):
 	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")

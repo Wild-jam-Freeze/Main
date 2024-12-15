@@ -8,7 +8,7 @@ var current_direction = Vector2.ZERO
 
 @onready var walk_sfx: AudioStreamPlayer = $AudioStreamPlayer
 
-func player_movement(input, delta):
+func player_movement(input):
 	if input: 
 		velocity = velocity.lerp(input * SPEED, ACCELERATION)
 	else: 
@@ -17,7 +17,7 @@ func player_movement(input, delta):
 func _physics_process(delta):
 	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	walk_sfx.play()
-	player_movement(input, delta)
+	player_movement(input)
 	move_and_slide()
 	play_direction_anim(delta)
 

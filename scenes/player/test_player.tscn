@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfffw51itfehy"]
+
+[ext_resource type="Texture2D" uid="uid://bodrsg2cvdb2r" path="res://place holders/assets/player.png" id="1_56dtv"]
+[ext_resource type="Script" path="res://scenes/player/test_player.gd" id="1_uffpq"]
+[ext_resource type="Script" path="res://scenes/player/torch.gd" id="3_wv2ni"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ns1"]
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 19
+script = ExtResource("1_uffpq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.229167, 0.229167)
+texture = ExtResource("1_56dtv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1ns1")
+
+[node name="torch" type="Node2D" parent="."]
+script = ExtResource("3_wv2ni")
+
+[node name="Area2D" type="Area2D" parent="torch"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="torch/Area2D"]
+position = Vector2(-39, 8)
+polygon = PackedVector2Array(54, -67, 54, 47, 264, 62, 262, -82)
+
+[connection signal="body_entered" from="torch/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="torch/Area2D" to="." method="_on_area_2d_body_exited"]

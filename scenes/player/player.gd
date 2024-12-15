@@ -45,7 +45,7 @@ func light_direction_control():
 		dir_center-deg_to_rad(TORCH_MAX_ANGLE), 
 		dir_center+deg_to_rad(TORCH_MAX_ANGLE))
 	
-	torchlight.rotation = clamped
+	torchlight.rotation = lerpf(torchlight.rotation, clamped, 0.2)
 	
 
 func clamp_angle(angle: float, min_angle: float, max_angle: float) -> float:

@@ -1,54 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://d4m6terrahc5d"]
+[gd_scene load_steps=3 format=3 uid="uid://d4m6terrahc5d"]
 
 [ext_resource type="Texture2D" uid="uid://chauo8eb65wvh" path="res://place holders/assets/background.png" id="1_vmfkg"]
 [ext_resource type="PackedScene" uid="uid://bfffw51itfehy" path="res://scenes/player/test_player.tscn" id="2_d3kco"]
-[ext_resource type="PackedScene" uid="uid://dqwe20ug6u4xg" path="res://scenes/enemy/chaser.tscn" id="3_qrpio"]
-[ext_resource type="Texture2D" uid="uid://drps7sa2aoled" path="res://place holders/assets/coin.png" id="4_2l1mc"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_5crvf"]
-vertices = PackedVector2Array(533, 365, 533, 256, 1689.91, -67.1328, 1682.08, 895.891, 590.813, 690.07, 458.148, 513.539, 417, 365, -42.4688, -89.8672, 417, 256, -89.5, 878.102, 371.852, 553.281, 297.453, 687.203, 584.859, 701.297)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(0, 4, 5, 6), PackedInt32Array(7, 2, 1, 8), PackedInt32Array(9, 7, 8, 6, 10, 11), PackedInt32Array(6, 5, 10), PackedInt32Array(3, 9, 11, 12), PackedInt32Array(3, 12, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-52, -100, 1700, -77, 1692, 906, -100, 888)])
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6o16r"]
-size = Vector2(96, 89)
-
-[sub_resource type="Animation" id="Animation_cms1f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(89, 135)]
-}
-
-[sub_resource type="Animation" id="Animation_y5i8u"]
-resource_name = "patrol"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(89, 135), Vector2(89, 500), Vector2(312, 341), Vector2(89, 135)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_kl4hx"]
-_data = {
-"RESET": SubResource("Animation_cms1f"),
-"patrol": SubResource("Animation_y5i8u")
-}
 
 [node name="main" type="Node2D"]
 
@@ -56,75 +9,5 @@ _data = {
 position = Vector2(736, 374)
 texture = ExtResource("1_vmfkg")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_5crvf")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="NavigationRegion2D"]
-position = Vector2(437, 276)
-
-[node name="ColorRect" type="ColorRect" parent="NavigationRegion2D/StaticBody2D2"]
-offset_left = -8.0
-offset_top = -9.0
-offset_right = 83.0
-offset_bottom = 78.0
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D2"]
-polygon = PackedVector2Array(18, 250, 142, 415, -123, 402, -58, 285)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
-position = Vector2(437, 276)
-
-[node name="ColorRect" type="ColorRect" parent="NavigationRegion2D/StaticBody2D"]
-offset_left = -8.0
-offset_top = -9.0
-offset_right = 83.0
-offset_bottom = 78.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D"]
-position = Vector2(38, 34.5)
-shape = SubResource("RectangleShape2D_6o16r")
-
 [node name="player" parent="." instance=ExtResource("2_d3kco")]
 position = Vector2(700, 298)
-
-[node name="CharacterBody2D" parent="." node_paths=PackedStringArray("target", "waypoints") instance=ExtResource("3_qrpio")]
-position = Vector2(89, 135)
-target = NodePath("../player")
-waypoints = [NodePath("../Marker2D"), NodePath("../Marker2D2"), NodePath("../Marker2D3"), NodePath("../Marker2D4")]
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
-avoidance_enabled = true
-debug_enabled = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
-libraries = {
-"": SubResource("AnimationLibrary_kl4hx")
-}
-
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(89, 139)
-
-[node name="Coin" type="Sprite2D" parent="Marker2D"]
-scale = Vector2(0.0895522, 0.0895522)
-texture = ExtResource("4_2l1mc")
-
-[node name="Marker2D2" type="Marker2D" parent="."]
-position = Vector2(89, 500)
-
-[node name="Coin" type="Sprite2D" parent="Marker2D2"]
-scale = Vector2(0.0895522, 0.0895522)
-texture = ExtResource("4_2l1mc")
-
-[node name="Marker2D3" type="Marker2D" parent="."]
-position = Vector2(89, 139)
-
-[node name="Coin" type="Sprite2D" parent="Marker2D3"]
-scale = Vector2(0.0895522, 0.0895522)
-texture = ExtResource("4_2l1mc")
-
-[node name="Marker2D4" type="Marker2D" parent="."]
-position = Vector2(479, 514)
-
-[node name="Coin" type="Sprite2D" parent="Marker2D4"]
-scale = Vector2(0.0895522, 0.0895522)
-texture = ExtResource("4_2l1mc")

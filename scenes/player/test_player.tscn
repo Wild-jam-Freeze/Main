@@ -7,7 +7,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1ns1"]
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
-collision_layer = 19
+collision_layer = 23
+collision_mask = 5
 script = ExtResource("1_uffpq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -18,6 +19,7 @@ texture = ExtResource("1_56dtv")
 shape = SubResource("RectangleShape2D_e1ns1")
 
 [node name="torch" type="Node2D" parent="."]
+visible = false
 script = ExtResource("3_wv2ni")
 
 [node name="Area2D" type="Area2D" parent="torch"]

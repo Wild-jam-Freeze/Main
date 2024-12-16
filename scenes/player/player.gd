@@ -13,7 +13,7 @@ var current_direction = Vector2.ZERO
 @onready var torchlight = $PointLight2D
 
 func _physics_process(delta):
-	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
+	var input = Input.get_vector("left","right","up","down")
 	player_movement(input)
 	move_and_slide()
 	play_direction_anim(input)

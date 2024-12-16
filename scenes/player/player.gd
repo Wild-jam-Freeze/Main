@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 300
+@export var SPEED = 300
 const ACCELERATION = 0.75
 const FRICTION = 0.5
 

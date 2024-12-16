@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0lut5sjdbq5d"]
+
+[ext_resource type="Texture2D" uid="uid://dm8rch7fjeenx" path="res://icon.svg" id="1_yy84o"]
+
+[node name="Healthbar" type="TextureProgressBar"]
+offset_right = 128.0
+offset_bottom = 128.0
+scale = Vector2(1.00149, 1)
+value = 100.0
+texture_progress = ExtResource("1_yy84o")
+tint_progress = Color(1, 0, 0, 1)

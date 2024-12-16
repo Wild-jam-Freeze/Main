@@ -1,65 +1,58 @@
 extends CharacterBody2D
 
-const SPEED = 300
-const ACCELERATION = 1500
-const FRICTION = 800
+@export var SPEED = 300
+const ACCELERATION = 0.75
+const FRICTION = 0.5
+
+const TORCH_MAX_ANGLE = 35
 
 var current_direction = Vector2.ZERO
-var current_animation = ""
 
 @onready var walk_sfx: AudioStreamPlayer = $AudioStreamPlayer
-
-
-func player_movement(input, delta):
-	if input: 
-		velocity = velocity.move_toward(input * SPEED , delta * ACCELERATION)
-	else: 
-		velocity = velocity.move_toward(Vector2(0,0), delta * FRICTION)
+@onready var animation_tree = $Animplayers/AnimationTree
+@onready var torchlight = $PointLight2D
 
 func _physics_process(delta):
-	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
-	walk_sfx.play()
-	player_movement(input, delta)
+	var input = Input.get_vector("left","right","up","down")
+	player_movement(input)
 	move_and_slide()
-	play_direction_anim(delta)
+	play_direction_anim(input)
+	light_direction_control()
 
-
-func play_direction_anim(delta):
-	var anim = $AnimatedSprite2D
-	var point_light_2d: PointLight2D = $PointLight2D
-	var input = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
-
-	var new_animation = ""
-
-	if input.x != 0 or input.y != 0:
+func player_movement(input: Vector2):
+	if input: 
+		velocity = velocity.lerp(input * SPEED, ACCELERATION)
 		current_direction = input
+		walk_sfx.play()
+	else: 
+		walk_sfx.stop()
+		velocity = velocity.lerp(Vector2.ZERO, FRICTION)
 
-	if current_direction.x > 0 and velocity.length() > 0:
-		new_animation = "walk_right"
-		point_light_2d.position = Vector2(30, 0)
-		point_light_2d.rotation = -1.6
-	elif current_direction.x < 0 and velocity.length() > 0:
-		new_animation = "walk_left"
-		point_light_2d.position = Vector2(-30, 0)
-		point_light_2d.rotation = 1.6
-	elif current_direction.y > 0 and velocity.length() > 0:
-		new_animation = "walk_down"
-		point_light_2d.position = Vector2(0, 22.5)
-		point_light_2d.rotation = 0
-	elif current_direction.y < 0 and velocity.length() > 0:
-		new_animation = "walk_up"
-		point_light_2d.position = Vector2(0, -22.5)
-		point_light_2d.rotation = 3.2
-	else:
-		if current_animation.ends_with("_right") and velocity.length() == 0:
-			new_animation = "idle_right"
-		elif current_animation.ends_with("_left") and velocity.length() == 0:
-			new_animation = "idle_left"
-		elif current_animation.ends_with("_down") and velocity.length() == 0:
-			new_animation = "idle_down"
-		elif current_animation.ends_with("_up") and velocity.length() == 0:
-			new_animation = "idle_up"
+func play_direction_anim(input: Vector2):
+	animation_tree.set("parameters/idle/blend_position", current_direction)
+	animation_tree.set("parameters/walk/blend_position", current_direction)
+	
+	animation_tree.set("parameters/conditions/still", !input)
+	animation_tree.set("parameters/conditions/walking", input != Vector2.ZERO)
+	
 
-	if new_animation != current_animation:
-		anim.play(new_animation)
-		current_animation = new_animation
+func light_direction_control():
+	var dir_center = current_direction.angle()
+	var mouse_angle = get_local_mouse_position().angle()
+	
+	var clamped = clamp_angle(
+		mouse_angle, 
+		dir_center-deg_to_rad(TORCH_MAX_ANGLE), 
+		dir_center+deg_to_rad(TORCH_MAX_ANGLE))
+	
+	torchlight.rotation = lerpf(torchlight.rotation, clamped, 0.2)
+	
+
+func clamp_angle(angle: float, min_angle: float, max_angle: float) -> float:
+	var max_diff = abs(angle_difference(angle, max_angle))
+	var min_diff = abs(angle_difference(angle, min_angle))
+	
+	if angle > max_angle or angle < min_angle:
+		if max_diff < min_diff: return max_angle
+		else: return min_angle
+	return angle

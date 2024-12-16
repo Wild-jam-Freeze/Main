@@ -492,8 +492,8 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(-10, -18)
 
 [node name="player" type="CharacterBody2D"]
+scale = Vector2(4, 4)
 script = ExtResource("1_1mfh8")
-SPEED = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vstpv")
@@ -504,13 +504,12 @@ sprite_frames = SubResource("SpriteFrames_8eus3")
 animation = &"walk_up"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 4.0
+energy = 0.4
 shadow_enabled = true
 texture = ExtResource("3_bvkrf")
 offset = Vector2(96, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

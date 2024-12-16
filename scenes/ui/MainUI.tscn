@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf4x62333w7yp"]
+
+[ext_resource type="Script" path="res://scenes/ui/main_ui.gd" id="1_wehgc"]
+[ext_resource type="PackedScene" uid="uid://b0lut5sjdbq5d" path="res://scenes/ui/healthbar.tscn" id="2_yirf2"]
+[ext_resource type="PackedScene" uid="uid://5mhq5gx3c40k" path="res://scenes/ui/freezebar.tscn" id="3_wlm2o"]
+
+[node name="MainUi" type="CanvasLayer"]
+script = ExtResource("1_wehgc")
+
+[node name="MainNode" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainNode"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Freezebar" parent="MainNode/VBoxContainer" instance=ExtResource("3_wlm2o")]
+layout_mode = 2
+
+[node name="Healthbar" parent="MainNode/VBoxContainer" instance=ExtResource("2_yirf2")]
+layout_mode = 2

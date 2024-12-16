@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://5mhq5gx3c40k"]
+
+[ext_resource type="Texture2D" uid="uid://dm8rch7fjeenx" path="res://icon.svg" id="1_h6viv"]
+
+[node name="Freezebar" type="TextureProgressBar"]
+offset_right = 40.0
+offset_bottom = 40.0
+value = 100.0
+texture_progress = ExtResource("1_h6viv")
+tint_progress = Color(0, 1, 1, 1)

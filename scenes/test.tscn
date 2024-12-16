@@ -1,18 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4m6terrahc5d"]
+[gd_scene load_steps=3 format=3 uid="uid://d4m6terrahc5d"]
 
+[ext_resource type="PackedScene" uid="uid://cewstmcgtoqda" path="res://scenes/levels/basement.tscn" id="1_p0g1w"]
 [ext_resource type="PackedScene" uid="uid://bxs4ow4k11h3y" path="res://scenes/player/player.tscn" id="2_vp2pf"]
 
 [node name="main" type="Node2D"]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -268.0
-offset_top = -211.0
-offset_right = 1543.0
-offset_bottom = 1120.0
+[node name="basement" parent="." instance=ExtResource("1_p0g1w")]
 
 [node name="player" parent="." instance=ExtResource("2_vp2pf")]
-position = Vector2(254, 606)
+position = Vector2(1031, 575)
 
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
-energy = 0.9
-blend_mode = 1
+[node name="modulate" type="CanvasModulate" parent="."]
+color = Color(0.0807834, 0.0807833, 0.0807833, 1)
